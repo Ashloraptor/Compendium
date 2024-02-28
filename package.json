@@ -1,0 +1,32 @@
+{
+  "name": "compendium",
+  "version": "1.0.0",
+  "description": "An application which takes photos submitted by the user to create a local collection of information cards for identified plants.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "seed": "node seeds/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashloraptor/Compendium.git"
+  },
+  "keywords": [
+    "compendium",
+    "plant",
+    "id"
+  ],
+  "author": "ashloraptor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ashloraptor/Compendium/issues"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.7"
+  },
+  "homepage": "https://github.com/Ashloraptor/Compendium#readme"
+}
