@@ -33,12 +33,13 @@
     <form id="search-form" class="form">
         <div class="form-inline form-group">
             <div class="input-group">
-                <input type="text" id="search-input" name="search" placeholder="Image 64Base" aria-controls="Plant Search"/>
+                <input type="text" id="search-input" name="search" placeholder="Plant name" aria-controls="Plant Search"/>
                 <br/>
                 <button type="submit" class="btn search-button" id="search-button">Search</button>
             </div>
             <div id="history"></div>
         </div>
+        <div id="root"></div>
 
     </form>
     <!--End test-->
@@ -55,7 +56,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"
         integrity="sha512-m00bfmYnAl3plEBlQfeQUhw/U2uvmw29V2+jxSWpAjankMWS+zAsjezbKWDEJNXqWq9o9qQZSOiA2RKDpa4D5w=="
         crossorigin="anonymous"></script>
-    <script src="./Assets/script.js"></script>
+    <script src="./routes/api/fetch.js"></script>
 
 </body>
 
