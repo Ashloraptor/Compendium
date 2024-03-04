@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Identification</title>
+</head>
+<body>
+  <h1>Plant Identification</h1>
+  <form id="plantForm">
+    <label for="imageUrl">Enter Image URL:</label>
+    <input type="text" id="imageUrl" name="imageUrl" required>
+    <button type="submit">Identify Plant</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('plantForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const imageUrl = document.getElementById('imageUrl').value;
+      const response = await fetch('/plants/identify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ imageUrl })
+      });
+      const data = await response.json();
+      document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    });
+  </script>
+</body>
+</html>

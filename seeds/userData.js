@@ -1,0 +1,6 @@
+[
+    {
+        username: 'User',
+        password: 'passwor'
+    }
+]
