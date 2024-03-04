@@ -45,6 +45,21 @@ router.delete('/:id', (req, res) => {
     })
     .catch((err)=> res.json(err));
   });
+
+
+
+// Create a new plant/save
+router.post('/', async (req, res) => {
+  try {
+    // Assuming req.body contains the necessary data for creating a plant
+    const newPlant = await Plant.create(req.body);
+    res.status(201).json(newPlant);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+module.exports = router;
   
   module.exports = router;
   

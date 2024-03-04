@@ -5,5 +5,6 @@ const plantRoutes = require('./plant-routes');
 //router.use('/model', modelRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/plants', plantRoutes);
+router.use('api', apiRoutes);
 
 module.exports = router;
