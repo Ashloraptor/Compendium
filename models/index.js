@@ -1,12 +1,22 @@
-const Sequelize = require('sequelize');
-const db = require('../config/database');
+const Category = require('./Category');
+const User = require('./User'); 
+const Plant = require('./Plant');
 
-const Plant = db.define('plant', {
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  // Add more attributes as needed
+
+
+User.hasMany(Category, {
+    foriegn_key: 'user_id'
 });
 
-module.exports = Plant;
+Category.belongsTo(User, {
+        foriegn_key:'user_id',
+    });
+
+Category.hasMany(Plant, {
+    foreign_key: 'category_id',
+});
+
+Plant.belongsToMany (Category, {
+    through: User,
+    foreign_key: 'plant_id',
+});
