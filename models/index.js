@@ -16,7 +16,7 @@ Category.hasMany(Plant, {
     foreign_key: 'category_id',
 });
 
-Plant.belongsToMany(Category, {
-    through: User,
-    foreign_key: 'plant_id',
-});
+// Plant.belongsToMany(Category, {
+//     through: User,
+//     foreign_key: 'plant_id',
+// });
