@@ -10,8 +10,8 @@ Plant.init(
 
         plant_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true
+            allowNull:false,
+            //autoIncrement: true
         },
         plant_name: {
             type: DataTypes.STRING,

@@ -1,10 +1,9 @@
-const router = require('express').Router();
-const apiRoutes = require('./api');
+const express = require('express');
+const router = express.Router();
+const plantController = require('../controllers/plantController');
 
-router.use('/api', apiRoutes);
-
-router.use((req, res) => {
-  res.send("<h1>You've gone off the map!</h1>")
-});
+// Routes for plant-related operations
+router.post('/identify', plantController.identifyPlant);
+router.get('/:id', plantController.getPlantDetails);
 
 module.exports = router;
