@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Plant, User } = require('../models');
-// const withAuth = require('../utils/auth');
+const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
     // try {
@@ -18,15 +18,15 @@ router.get('/', async (req, res) => {
     // const plant = plantData.map((plant) => plant.get({ plain: true }));
 
     // Pass serialized data and session flag into template
-    res.render('homepage') 
-    // res.render('homepage', { 
+    // res.render('homepage') 
+    res.render('homepage', { 
     //   plant, 
-    //   logged_in: req.session.logged_in 
+      logged_in: req.session.logged_in 
     // });
 //   } catch (err) {
 //     res.status(500).json(err);
-//   }
-});
+  }
+)});
 
 router.get('/plant/:id', async (req, res) => {
     try {
@@ -43,7 +43,7 @@ router.get('/plant/:id', async (req, res) => {
 
     res.render('plant', {
       ...plant,
-      logged_in: req.session.logged_in
+      logged_in: req.session.logged_in || false,
     });
   } catch (err) {
     res.status(500).json(err);
