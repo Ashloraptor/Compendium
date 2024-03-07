@@ -1,12 +1,12 @@
-const router = require('express').Router();
-const categoryRoutes = require('./category-routes');
-//const fetchRoutes = require('./fetch');
-const plantRoutes = require('./plant-routes');
-// const apiRoutes = require('./api');
-//router.use('/model', modelRoutes);
-router.use('/categories', categoryRoutes);
-router.use('/plants', plantRoutes);
-// router.use('api', apiRoutes);
+const express = require('express');
+const router = express.Router();
+const apiControllers = require('../apiControllers'); // Import apiControllers module
 
+// Import homeRoutes module
+const homeRoutes = require('../home-routes');
+
+// Routes for plant-related operations
+router.use('/', homeRoutes);
+router.get('/data', apiControllers.getData); // Use getData as middleware
 
 module.exports = router;
