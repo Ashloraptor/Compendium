@@ -23,11 +23,11 @@ Plant.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        date_found: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW
-        },
+        // date_found: {
+        //     type: DataTypes.DATE,
+        //     allowNull: false,
+        //     defaultValue: DataTypes.NOW
+        // },
     },
     {
         sequelize,
