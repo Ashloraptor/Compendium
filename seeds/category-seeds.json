@@ -1,11 +1,14 @@
 [
     {
+        "category_id": 1,
         "category_name": "Plants"
     },
     {
+        "category_id": "2",
         "category_name": "Insects"
     },
     {
+        "category_id": "2",
         "category_name": "Fungi"
     }
 ]

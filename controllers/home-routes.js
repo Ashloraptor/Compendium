@@ -2,35 +2,59 @@ const router = require('express').Router();
 const { Plant, User } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-    // try {
-      // Get all blog posts and JOIN with user data
-    //   const plantData = await Plant.findAll({
-    //     include: [
-    //       {
-    //         model: User,
-    //         attributes: ['name'],
-    //       },
-    //     ],
-    //   });
+// router.get('/', async (req, res) => {
+//     // try {
+//       // Get all blog posts and JOIN with user data
+//     //   const plantData = await Plant.findAll({
+//     //     include: [
+//     //       {
+//     //         model: User,
+//     //         attributes: ['name'],
+//     //       },
+//     //     ],
+//     //   });
       
-    // // Serialize data so the template can read it
-    // const plant = plantData.map((plant) => plant.get({ plain: true }));
+//     // // Serialize data so the template can read it
+//     // const plant = plantData.map((plant) => plant.get({ plain: true }));
 
-    // Pass serialized data and session flag into template
-    // res.render('homepage') 
-    res.render('homepage', { 
-    //   plant, 
-      logged_in: req.session.logged_in 
-    // });
-//   } catch (err) {
-//     res.status(500).json(err);
-  }
-)});
+//     // Pass serialized data and session flag into template
+//     // res.render('homepage') 
+//     res.render('homepage', { 
+//     //   plant, 
+//       logged_in: req.session.logged_in 
+//     // });
+// //   } catch (err) {
+// //     res.status(500).json(err);
+//   }
+// )});
+router.get('/', async (req, res) => {
+  try {
+    // Get all blog posts and JOIN with user data
+    const plantData = await Plant.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
+    });
 
-router.get('/plant/:id', async (req, res) => {
+  // Serialize data so the template can read it
+  const plant_id = plantData.map((plant) => plant.get({ plain: true }));
+
+  // Pass serialized data and session flag into template
+  res.render('homepage', { 
+    plant_id, 
+    // logged_in: req.session.logged_in 
+  });
+} catch (err) {
+  res.status(500).json(err);
+}
+});
+
+router.get('/:id', async (req, res) => {
     try {
-      const plantData = await Plant.findByPk(req.params.id, {
+      const plantData = await Plant.findByPk(req.params.plant_id, {
         include: [
           {
             model: User,
