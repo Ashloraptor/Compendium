@@ -2,7 +2,8 @@
 const router = require('express').Router();
 // const router = express.Router();
 const { Plant } = require('../../models');
-const { fetchDataFromAPI } = require('../../utils/apiUtils')
+// const withAuth = require('../../utils/auth');
+// const { fetchDataFromAPI } = require('../../utils/apiUtils')
 
 // router.get('/', async (req, res) => {
 // // router.get('/plants', async (req, res) => {
