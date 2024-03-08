@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Plant not found' });
         }
         
-      
+        // Fetch additional data from the external API for this plant
         const additionalData = await fetchDataFromAPI(id); // Assuming plant ID is used as a parameter
         const enhancedPlant = { ...plant, additionalData }; // Merge additional data with the plant object
 

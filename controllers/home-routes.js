@@ -2,34 +2,10 @@ const router = require('express').Router();
 const { Plant, User } = require('../models');
 const withAuth = require('../utils/auth');
 
-// router.get('/', async (req, res) => {
-//     // try {
-//       // Get all blog posts and JOIN with user data
-//     //   const plantData = await Plant.findAll({
-//     //     include: [
-//     //       {
-//     //         model: User,
-//     //         attributes: ['name'],
-//     //       },
-//     //     ],
-//     //   });
-      
-//     // // Serialize data so the template can read it
-//     // const plant = plantData.map((plant) => plant.get({ plain: true }));
-
-//     // Pass serialized data and session flag into template
-//     // res.render('homepage') 
-//     res.render('homepage', { 
-//     //   plant, 
-//       logged_in: req.session.logged_in 
-//     // });
-// //   } catch (err) {
-// //     res.status(500).json(err);
-//   }
-// )});
+// Route to display all plants
 router.get('/', async (req, res) => {
   try {
-    // Get all blog posts and JOIN with user data
+    // Get all plants and include user data
     const plantData = await Plant.findAll({
       include: [
         {
@@ -39,32 +15,42 @@ router.get('/', async (req, res) => {
       ],
     });
 
-  // Serialize data so the template can read it
-  const plant_id = plantData.map((plant) => plant.get({ plain: true }));
+    // Serialize data
+    const plants = plantData.map((plant) => plant.get({ plain: true }));
 
-  // Pass serialized data and session flag into template
-  res.render('homepage', { 
-    plant_id, 
-    // logged_in: req.session.logged_in 
-  });
-} catch (err) {
-  res.status(500).json(err);
-}
+    // Pass serialized data and session flag into template
+    res.render('homepage', { 
+      plants, 
+      logged_in: req.session.logged_in 
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
+// Route to display a single plant by ID
 router.get('/:id', async (req, res) => {
-    try {
-      const plantData = await Plant.findByPk(req.params.plant_id, {
-        include: [
-          {
-            model: User,
-            attributes: ['name'],
-          },
-        ],
-      });
-      
+  try {
+    // Find plant by ID and include user data
+    const plantData = await Plant.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
+    });
+
+    // If plant not found, return 404
+    if (!plantData) {
+      res.status(404).json({ message: 'Plant not found' });
+      return;
+    }
+
+    // Serialize data
     const plant = plantData.get({ plain: true });
 
+    // Pass serialized data and session flag into template
     res.render('plant', {
       ...plant,
       logged_in: req.session.logged_in || false,
@@ -74,40 +60,44 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Use withAuth middleware to prevent access to route
-router.get('/profile', async (req, res) => {
-// router.get('/profile', withAuth, async (req, res) => {
-    try {
-      // Find the logged in user based on the session ID
-      const userData = await User.findByPk(req.session.user_id, {
-        attributes: { exclude: ['password'] },
-        include: [{ model: Plant }],
-      });
-  
-      const user = userData.get({ plain: true });
-      console.log(user);
-  
-      res.render('profile', {
-        ...user,
-        logged_in: true
-      });
-    } catch (err) {
-      res.status(500).json(err);
-    }
+// Route to display user profile
+router.get('/profile', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Plant }],
+    });
 
-
-  });
-
-  
-router.get('/login', (req, res) => {
-    // If the user is already logged in, redirect the request to another route
-    if (req.session.logged_in) {
-      res.redirect('/profile');
+    // If user not found, return 404
+    if (!userData) {
+      res.status(404).json({ message: 'User not found' });
       return;
     }
-  
-    res.render('login');
-  });
-  
-  module.exports = router;
-  
+
+    // Serialize data
+    const user = userData.get({ plain: true });
+
+    // Render profile page
+    res.render('profile', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// Route to display login page
+router.get('/login', (req, res) => {
+  // If the user is already logged in, redirect to profile
+  if (req.session.logged_in) {
+    res.redirect('/profile');
+    return;
+  }
+
+  // Render login page
+  res.render('login');
+});
+
+module.exports = router;
