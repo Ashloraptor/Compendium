@@ -103,3 +103,22 @@
 //     .then(result => console.log(result))
 //     .catch(error => console.log('error', error));
 // //End code
+
+// //Start code suggested by El in FC Discord
+// async function getDataUrl(blob) => {
+//     return new Promise((resolve, reject) => {
+//         const reader = new FileReader()
+//         reader.onloadend = () => resolve(reader.result)
+//         reader.onerror = reject
+//         reader.readAsDataURL(blob)
+//      });
+// }
+
+// const dataUrl = await getDataUrl(imageBlob)
+// const base64Image = dataUrl.replace(/^.*base64,/,"");
+
+// const apiRequestData = {
+//     images: [base64Image],
+//     // everything else
+// }
+// //End

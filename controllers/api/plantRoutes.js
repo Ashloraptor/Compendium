@@ -1,9 +1,11 @@
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+const router = require('express').Router();
+// const router = express.Router();
 const { Plant } = require('../../models');
 const { fetchDataFromAPI } = require('../../utils/apiUtils')
 
-router.get('/plants', async (req, res) => {
+router.get('/', async (req, res) => {
+// router.get('/plants', async (req, res) => {
     try {
         
         const plants = await Plant.findAll();
@@ -22,7 +24,8 @@ router.get('/plants', async (req, res) => {
 })
 
 
-router.get('/plants/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
+// router.get('/plants/:id', async (req, res) => {
     const { id } = req.params;
     try {
         // Fetch plant from your database
@@ -43,7 +46,8 @@ router.get('/plants/:id', async (req, res) => {
 });
 
 
-router.post('/plants', async (req, res) => {
+router.post('/', async (req, res) => {
+// router.post('/plants', async (req, res) => {
     const { name, species, description } = req.body;
     try {
         // Create a new plant in your database
@@ -61,7 +65,8 @@ router.post('/plants', async (req, res) => {
 });
 
 
-router.put('/plants/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
+// router.put('/plants/:id', async (req, res) => {
     const { id } = req.params;
     const { name, species, description } = req.body;
     try {
@@ -85,7 +90,8 @@ router.put('/plants/:id', async (req, res) => {
 });
 
 
-router.delete('/plants/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
+// router.delete('/plants/:id', async (req, res) => {
     const { id } = req.params;
     try {
         
