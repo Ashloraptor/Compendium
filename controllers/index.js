@@ -8,6 +8,6 @@ router.use('/', homeRoutes);
 // router.post('/identify', plantController.identifyPlant);
 // router.get('/:id', plantController.getPlantDetails);
 router.use('/api', apiRoutes);
-router.use('/apiControllers', apiController);
+// router.use('/apiControllers', apiController);
 
 module.exports = router;

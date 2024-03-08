@@ -2,7 +2,7 @@
 const router = require('express').Router();
 // const router = express.Router();
 const userRoutes = require('./user-routes');
-const plantRoutes = require('./plant-routes');
+const plantRoutes = require('./plantRoutes');
 
 // const apiControllers = require('../apiControllers'); // Import apiControllers module
 
