@@ -27,14 +27,21 @@ const { fetchDataFromAPI } = require('../../utils/apiUtils')
 router.post('/', async (req, res) => {
 // router.post('/', withAuth, async (req, res) => {
     try {
-      const newPlant = await Plant.create({
-        ...req.body,
-        user_id: req.session.user_id,
-      });
-  
-      res.status(200).json(newPlant);
-    } catch (err) {
-      res.status(400).json(err);
+
+        // Fetch plant from your database
+        const plant = await Plant.findByPk(id);
+        if (!plant) {
+            return res.status(404).json({ error: 'Plant not found' });
+        }
+        
+      
+        const additionalData = await fetchDataFromAPI(id); // Assuming plant ID is used as a parameter
+        const enhancedPlant = { ...plant, additionalData }; // Merge additional data with the plant object
+
+        res.json(enhancedPlant);
+    } catch (error) {
+        console.error('Error fetching plant:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
   });
 
