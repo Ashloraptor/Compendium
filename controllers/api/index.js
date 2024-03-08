@@ -1,12 +1,19 @@
-const express = require('express');
-const router = express.Router();
-const apiControllers = require('../apiControllers'); // Import apiControllers module
+// const express = require('express');
+const router = require('express').Router();
+// const router = express.Router();
+const userRoutes = require('./user-routes');
+const plantRoutes = require('./plant-routes');
+
+// const apiControllers = require('../apiControllers'); // Import apiControllers module
 
 // Import homeRoutes module
-const homeRoutes = require('../home-routes');
+// const homeRoutes = require('../home-routes');
 
 // Routes for plant-related operations
-router.use('/', homeRoutes);
-router.get('/data', apiControllers.getData); // Use getData as middleware
+router.use('/users', userRoutes);
+router.use('/plants', plantRoutes);
+
+// router.use('/', homeRoutes);
+// router.get('/data', apiControllers.getData); // Use getData as middleware
 
 module.exports = router;
