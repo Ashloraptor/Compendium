@@ -32,7 +32,8 @@ async function createPlant(plantData) {
 //     await createPlant(plantData);
 //   });
 // });
-  const plantForm = document.getElementById('search-form');
+  const plantForm = document.getElementById('plantInput');
+  // const plantForm = document.getElementById('search-form');
   console.log(plantForm);
   if(plantForm){
 console.log("Ready");
