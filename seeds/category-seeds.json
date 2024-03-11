@@ -1,6 +1,6 @@
 [
     {
-        "category_id": 1,
+        "category_id": "1",
         "category_name": "Plants"
     },
     {
@@ -8,7 +8,7 @@
         "category_name": "Insects"
     },
     {
-        "category_id": "2",
+        "category_id": "3",
         "category_name": "Fungi"
     }
 ]
