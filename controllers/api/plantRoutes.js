@@ -1,17 +1,12 @@
-// const express = require('express');
 const router = require('express').Router();
-// const router = express.Router();
 const { Plant } = require('../../models');
-// const withAuth = require('../../utils/auth');
-// const { fetchDataFromAPI } = require('../../utils/apiUtils')
+const { fetchDataFromAPI } = require('../../utils/apiUtils');
 
+// GET all plants
 // router.get('/', async (req, res) => {
-// // router.get('/plants', async (req, res) => {
 //     try {
-        
 //         const plants = await Plant.findAll();
         
-       
 //         const enhancedPlants = await Promise.all(plants.map(async (plant) => {
 //             const additionalData = await fetchDataFromAPI(plant.id); 
 //             return { ...plant, additionalData }; 
@@ -22,135 +17,102 @@ const { Plant } = require('../../models');
 //         console.error('Error fetching plants:', error);
 //         res.status(500).json({ error: 'Internal Server Error' });
 //     }
-// })
+// });
+router.get('/', async (req, res) => {
+    try {
+        const plants = await Plant.findAll();
 
-//Allows user to search new plant
+        // Extract plant ids
+        const plantIds = plants.map(plant => plant.id);
+
+        // Fetch additional data for all plants in a single request
+        const additionalData = await fetchDataForMultiplePlantsFromAPI(plantIds);
+
+        // Combine additional data with plants
+        const enhancedPlants = plants.map(plant => {
+            const plantAdditionalData = additionalData.find(data => data.plantId === plant.id);
+            return { ...plant.toJSON(), additionalData: plantAdditionalData };
+        });
+
+        res.json(enhancedPlants);
+    } catch (error) {
+        console.error('Error fetching plants:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+// GET a single plant by ID
+router.get('/:plant_id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const plant = await Plant.findByPk(id);
+        if (!plant) {
+            return res.status(404).json({ error: 'Plant not found' });
+        }
+        
+        const additionalData = await fetchDataFromAPI(id);
+        const enhancedPlant = { ...plant, additionalData };
+
+        res.json(enhancedPlant);
+    } catch (error) {
+        console.error('Error fetching plant:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// POST a new plant
 router.post('/', async (req, res) => {
-// router.post('/', withAuth, async (req, res) => {
+    const { name, species, description } = req.body;
     try {
-      const newPlant = await Plant.create({
-        ...req.body,
-        user_id: req.session.user_id,
-      });
-  
-      res.status(200).json(newPlant);
-    } catch (err) {
-      res.status(400).json(err);
-    }
-  });
+        const newPlant = await Plant.create({ name, species, description });
+        
+        const additionalData = await fetchDataFromAPI(newPlant.id);
+        newPlant.additionalData = additionalData;
 
-  //Allow user to delete posts
-  router.delete('/:id', async (req, res) => {
-//   router.delete('/:id', withAuth, async (req, res) => {
+        res.status(201).json(newPlant);
+    } catch (error) {
+        console.error('Error creating plant:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// PUT update a plant by ID
+router.put('/:plant_id', async (req, res) => {
+    const { id } = req.params;
+    const { name, species, description } = req.body;
     try {
-      const plantData = await Plant.destroy({
-        where: {
-          id: req.params.id,
-          user_id: req.session.user_id,
-        },
-      });
-  
-      if (!plantData) {
-        res.status(404).json({ message: 'No blogpost found with this id!' });
-        return;
-      }
-  
-      res.status(200).json(plantData);
-    } catch (err) {
-      res.status(500).json(err);
+        const plant = await Plant.findByPk(id);
+        if (!plant) {
+            return res.status(404).json({ error: 'Plant not found' });
+        }
+        
+        await plant.update({ name, species, description });
+        
+        const additionalData = await fetchDataFromAPI(id); 
+        plant.additionalData = additionalData;
+
+        res.json(plant);
+    } catch (error) {
+        console.error('Error updating plant:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
 
-
-// router.get('/:id', async (req, res) => {
-// // router.get('/plants/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         // Fetch plant from your database
-//         const plant = await Plant.findByPk(id);
-//         if (!plant) {
-//             return res.status(404).json({ error: 'Plant not found' });
-//         }
+// DELETE a plant by ID
+router.delete('/:plant_id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const plant = await Plant.findByPk(id);
+        if (!plant) {
+            return res.status(404).json({ error: 'Plant not found' });
+        }
         
-//         // Fetch additional data from the external API for this plant
-//         const additionalData = await fetchDataFromAPI(id); // Assuming plant ID is used as a parameter
-//         const enhancedPlant = { ...plant, additionalData }; // Merge additional data with the plant object
+        await plant.destroy();
 
-//         res.json(enhancedPlant);
-//     } catch (error) {
-//         console.error('Error fetching plant:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// });
-
-
-// router.post('/', async (req, res) => {
-// // router.post('/plants', async (req, res) => {
-//     const { name, species, description } = req.body;
-//     // const { name, species, description } = req.body;
-//     try {
-//         // Create a new plant in your database
-//         const newPlant = await Plant.create({ name, species, description });
-        
-//         // Fetch additional data from the external API for the newly created plant
-//         const additionalData = await fetchDataFromAPI(newPlant.id); // Assuming plant ID is used as a parameter
-//         newPlant.additionalData = additionalData; // Add additional data to the new plant object
-
-//         res.status(201).json(newPlant);
-//     } catch (error) {
-//         console.error('Error creating plant:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// });
-
-
-// router.put('/:id', async (req, res) => {
-// // router.put('/plants/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const { plantId, plantName } = req.body;
-//     // const { name, species, description } = req.body;
-//     try {
-//         const plant = await Plant.findByPk(id);
-//         if (!plant) {
-//             return res.status(404).json({ error: 'Plant not found' });
-//         }
-        
-        
-//         await plant.update({ plantId, plantName });
-//         // await plant.update({ name, species, description });
-        
-        
-//         const additionalData = await fetchDataFromAPI(id); 
-//         plant.additionalData = additionalData;
-
-//         res.json(plant);
-//     } catch (error) {
-//         console.error('Error updating plant:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// });
-
-
-// router.delete('/:id', async (req, res) => {
-// // router.delete('/plants/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-        
-//         const plant = await Plant.findByPk(id);
-//         if (!plant) {
-//             return res.status(404).json({ error: 'Plant not found' });
-//         }
-        
-       
-//         await plant.destroy();
-        
-        
-
-//         res.status(204).end();
-//     } catch (error) {
-//         console.error('Error deleting plant:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// });
+        res.status(204).end();
+    } catch (error) {
+        console.error('Error deleting plant:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;
