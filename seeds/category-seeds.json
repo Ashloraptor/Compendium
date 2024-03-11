@@ -1,14 +1,14 @@
 [
     {
-        "name": "1",
-        "description": "Plants"
+        "category_id": "1",
+        "category_name": "Plants"
     },
     {
-        "name": "2",
-        "description": "Insects"
+        "category_id": 2,
+        "category_name": "Insects"
     },
     {
-        "name": "3",
-        "description": "Fungi"
+        "category_id": "3",
+        "category_name": "Fungi"
     }
 ]

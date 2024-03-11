@@ -132,3 +132,4 @@ function renderPlantDetails(plantDetails) {
 // searchPlant(plantName);
 const plantInput = document.getElementById('plantInput');
 plantInput.addEventListener('submit', searchPlant)
+
