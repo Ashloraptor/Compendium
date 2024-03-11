@@ -3,14 +3,36 @@ const { Plant } = require('../../models');
 const { fetchDataFromAPI } = require('../../utils/apiUtils');
 
 // GET all plants
+// router.get('/', async (req, res) => {
+//     try {
+//         const plants = await Plant.findAll();
+        
+//         const enhancedPlants = await Promise.all(plants.map(async (plant) => {
+//             const additionalData = await fetchDataFromAPI(plant.id); 
+//             return { ...plant, additionalData }; 
+//         }));
+
+//         res.json(enhancedPlants);
+//     } catch (error) {
+//         console.error('Error fetching plants:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 router.get('/', async (req, res) => {
     try {
         const plants = await Plant.findAll();
-        
-        const enhancedPlants = await Promise.all(plants.map(async (plant) => {
-            const additionalData = await fetchDataFromAPI(plant.id); 
-            return { ...plant, additionalData }; 
-        }));
+
+        // Extract plant ids
+        const plantIds = plants.map(plant => plant.id);
+
+        // Fetch additional data for all plants in a single request
+        const additionalData = await fetchDataForMultiplePlantsFromAPI(plantIds);
+
+        // Combine additional data with plants
+        const enhancedPlants = plants.map(plant => {
+            const plantAdditionalData = additionalData.find(data => data.plantId === plant.id);
+            return { ...plant.toJSON(), additionalData: plantAdditionalData };
+        });
 
         res.json(enhancedPlants);
     } catch (error) {
@@ -18,9 +40,8 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 // GET a single plant by ID
-router.get('/:id', async (req, res) => {
+router.get('/:plant_id', async (req, res) => {
     const { id } = req.params;
     try {
         const plant = await Plant.findByPk(id);
@@ -55,7 +76,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT update a plant by ID
-router.put('/:id', async (req, res) => {
+router.put('/:plant_id', async (req, res) => {
     const { id } = req.params;
     const { name, species, description } = req.body;
     try {
@@ -77,7 +98,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE a plant by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:plant_id', async (req, res) => {
     const { id } = req.params;
     try {
         const plant = await Plant.findByPk(id);

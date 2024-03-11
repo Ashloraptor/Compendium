@@ -1,7 +1,19 @@
+<form id="plantInput">
+  <div class="mb-3">
+    <label for="plantName" class="form-label">Plant Name</label>
+    <input type="text" class="form-control" id="plantName" >
+    <div id="emailHelp" class="form-text"></div>
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form> 
+
+
 <div class="text-center">
-    <h2>{{name}}</h2>
+    <h2>{{common_names}}</h2>
     <p>{{description}}</p>
-    <p>Created on {{format_date date_created}}</p>
+    {{!-- <p>Created on {{format_date date_created}}</p> --}}
+    <img src="{{image}}" alt="Plant Image"> <!-- Add plant image display -->
 </div>
 
-<script src="/plant.js"></script>
+<script src="./js/plant.js"></script>
