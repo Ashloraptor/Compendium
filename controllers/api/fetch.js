@@ -1,4 +1,4 @@
-// // Start code referencing Whether_the_Weather
+// //Start code referencing Whether_the_Weather
 // var searchHistory = [];
 // var searchForm = document.getElementById("search-form");
 // var searchInput = document.getElementById("search-input");
@@ -42,16 +42,16 @@
 //     var url = plantIdApiRootUrl + "name_search?q=" + plantName + requestOptions
 
 //     fetch(url)
-//     // .then(response => response.text())
+//     .then(response => response.text())
 //     .then(response => response.json())
 //     .then(result => console.log(result))
 //     .catch(error => console.log('error', error));
 //     // Extract the access_token to incorporate into the next function in order to pull detailed searh
-//     // getPlantDetail(accessToken)
-// }
-// End code
+//     getPlantDetail(accessToken)
+// ß
+//End code
 
-// //Start code from plant.id API v3 documentation GET Retrieve Identification
+//Start code from plant.id API v3 documentation GET Retrieve Identification
 // var myHeaders = new Headers();
 // myHeaders.append("Api-Key", "bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As");
 // myHeaders.append("Content-Type", "application/json");
@@ -67,8 +67,8 @@
 //   .then(response => response.text())
 //   .then(result => console.log(result))
 //   .catch(error => console.log('error', error));
-//   //console.log(response)
-//   // End code
+//   console.log(response)
+  // End code
 
 // //Start code from plant.id API v3 GET Plants search
 // var myHeaders = new Headers();

@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['username'],
+          attributes: ['name'],
         },
       ],
     });
@@ -28,6 +28,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/plant/:id', async (req, res) => {
+  try {
+    const plantData = await Plant.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    const plant = plantData.get({ plain: true });
+
+    res.render('plant', {
+      ...plant,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //single plant by ID
 // router.get('/:id', async (req, res) => {
 //   try {
@@ -69,14 +90,6 @@ router.get('/profile', withAuth, async (req, res) => {
       include: [{ model: Plant }],
     });
 
-    // If user not found, return 404
-    if (!userData) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-
-
-  
     const user = userData.get({ plain: true });
 
     // Render profile page
@@ -87,12 +100,6 @@ router.get('/profile', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
-
-router.get('/plants', async (req, res) => {
-    console.log("/plants")
-    res.render('plants');
-  
 });
 
 router.get('/login', (req, res) => {
@@ -107,3 +114,4 @@ router.get('/login', (req, res) => {
 });
 
 module.exports = router;
+  
