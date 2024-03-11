@@ -24,7 +24,7 @@ app.use(session({
 
 // Routes
 app.use('/plants', plantRoutes);
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 
 // Connect to database
 db.authenticate()
