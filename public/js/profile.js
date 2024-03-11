@@ -20,9 +20,20 @@ async function createPlant(plantData) {
     }
   }
   
+//   document.addEventListener("DOMContentLoaded", (event) => {
+//   const plantForm = document.getElementById('plantInput');
   
-  const plantForm = document.getElementById('plantForm');
+//   plantForm.addEventListener('submit', async (event) => {
+//     event.preventDefault(); 
   
+//     const formData = new FormData(plantForm);
+//     const plantData = Object.fromEntries(formData.entries()); 
+  
+//     await createPlant(plantData);
+//   });
+// });
+  const plantForm = document.getElementById('plantInput');
+  console.log(plantForm);
   plantForm.addEventListener('submit', async (event) => {
     event.preventDefault(); 
   
