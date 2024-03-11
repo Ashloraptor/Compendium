@@ -1,7 +1,7 @@
 // const express = require('express');
 const router = require('express').Router();
 // const router = express.Router();
-const userRoutes = require('./user-routes');
+const userRoutes = require('./userRoutes');
 const plantRoutes = require('./plantRoutes');
 
 // const apiControllers = require('../apiControllers'); // Import apiControllers module
@@ -10,7 +10,7 @@ const plantRoutes = require('./plantRoutes');
 // const homeRoutes = require('../home-routes');
 
 // Routes for plant-related operations
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);
 router.use('/plants', plantRoutes);
 
 // router.use('/', homeRoutes);

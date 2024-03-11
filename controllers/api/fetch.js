@@ -1,54 +1,54 @@
-//Start code referencing Whether_the_Weather
-var searchHistory = [];
-var searchForm = document.getElementById("search-form");
-var searchInput = document.getElementById("search-input");
-var plantName = searchInput;
-var rootEl = document.getElementById("root");
+// //Start code referencing Whether_the_Weather
+// var searchHistory = [];
+// var searchForm = document.getElementById("search-form");
+// var searchInput = document.getElementById("search-input");
+// var plantName = searchInput;
+// var rootEl = document.getElementById("root");
 
-var plantIdApiRootUrl = 'https://plant.id/api/v3/kb/plants';
-var apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
+// var plantIdApiRootUrl = 'https://plant.id/api/v3/kb/plants';
+// var apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
 
-// Function to log the search input value
-function searchPlant(event) {
-    // Prevent the default form submission
-    event.preventDefault();
-    // Retrieve the input value
-    var inputValue = plantName.value.trim();
-    console.log("Searching ", plantName);
-    // don't search if search is empty
-    if (inputValue == '') {
-        return false;
-    } else {
-        //functions
-        searchPlantName(inputValue)
+// // Function to log the search input value
+// function searchPlant(event) {
+//     // Prevent the default form submission
+//     event.preventDefault();
+//     // Retrieve the input value
+//     var inputValue = plantName.value.trim();
+//     console.log("Searching ", plantName);
+//     // don't search if search is empty
+//     if (inputValue == '') {
+//         return false;
+//     } else {
+//         //functions
+//         searchPlantName(inputValue)
 
-        //clears input value after submit
-        searchInput.value = '';
-    }
-}
+//         //clears input value after submit
+//         searchInput.value = '';
+//     }
+// }
 
-function searchPlantName(plantName) {
-    var myHeaders = new Headers();
-    myHeaders.append("Api-Key", apiKey);
-    myHeaders.append("Content-Type", "application/json");
+// function searchPlantName(plantName) {
+//     var myHeaders = new Headers();
+//     myHeaders.append("Api-Key", apiKey);
+//     myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+//     var requestOptions = {
+//         method: 'GET',
+//         headers: myHeaders,
+//         redirect: 'follow'
+//     };
 
-    var url = plantIdApiRootUrl + "name_search?q=" + plantName + requestOptions
+//     var url = plantIdApiRootUrl + "name_search?q=" + plantName + requestOptions
 
-    fetch(url)
-    .then(response => response.text())
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-    // Extract the access_token to incorporate into the next function in order to pull detailed searh
-    getPlantDetail(accessToken)
-}
+//     fetch(url)
+//     .then(response => response.text())
+//     .then(response => response.json())
+//     .then(result => console.log(result))
+//     .catch(error => console.log('error', error));
+//     // Extract the access_token to incorporate into the next function in order to pull detailed searh
+//     getPlantDetail(accessToken)
+// ß
 //End code
 
 //Start code from plant.id API v3 documentation GET Retrieve Identification
