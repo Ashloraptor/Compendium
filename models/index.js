@@ -1,13 +1,11 @@
 // const Category = require('./Category');
-// const Category = require('./Category');
 const User = require('./User'); 
 const Plant = require('./Plant');
 
 
 
 User.hasMany(Plant, {
-    foriegn_key: 'user_id',
-    onDelete: 'CASCADE'
+    foriegn_key: 'user_id'
 });
 // User.hasMany(Category, {
 //     foriegn_key: 'user_id'
