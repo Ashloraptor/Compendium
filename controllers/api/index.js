@@ -10,7 +10,7 @@ const plantRoutes = require('./plantRoutes');
 // const homeRoutes = require('../home-routes');
 
 // Routes for plant-related operations
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);
 router.use('/plants', plantRoutes);
 
 // router.use('/', homeRoutes);
