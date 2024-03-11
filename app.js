@@ -1,18 +1,14 @@
-// app.js
 const express = require('express');
-const sequelize = require('./config/connection');
-const userRoutes = require('./routes/api/userRoutes');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const apiController = require('./controllers/apiControllers');
+const dotenvConfig = require('./config/dotenv');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/users', userRoutes);
+app.get('/api/data', apiController.getData);
 
-sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the homepage');
 });
 
 module.exports = app;

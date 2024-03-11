@@ -2,6 +2,22 @@ const router = require('express').Router();
 const { Plant } = require('../../models');
 const { fetchDataFromAPI } = require('../../utils/apiUtils');
 
+// GET all plants
+// router.get('/', async (req, res) => {
+//     try {
+//         const plants = await Plant.findAll();
+        
+//         const enhancedPlants = await Promise.all(plants.map(async (plant) => {
+//             const additionalData = await fetchDataFromAPI(plant.id); 
+//             return { ...plant, additionalData }; 
+//         }));
+
+//         res.json(enhancedPlants);
+//     } catch (error) {
+//         console.error('Error fetching plants:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 router.get('/', async (req, res) => {
     try {
         const plants = await Plant.findAll();

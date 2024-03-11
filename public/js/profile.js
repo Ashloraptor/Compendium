@@ -1,47 +1,49 @@
-const newFormHandler = async (event) => {
-  event.preventDefault();
-
-  const name = document.querySelector('#plant-name').value.trim();
-  //const needed_funding = document.querySelector('#plant-funding').value.trim();
-  const description = document.querySelector('#plant-desc').value.trim();
-
-  if (name && description) {
-    const response = await fetch(`/api/plant`, {
+async function createPlant(plantData) {
+  try {
+    const response = await fetch('/api/plants', {
       method: 'POST',
-      body: JSON.stringify({ name,  description }),
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(plantData),
     });
 
-    if (response.ok) {
-      document.location.replace('/profile');
-    } else {
-      alert('Failed to create plant');
+    if (!response.ok) {
+      throw new Error('Failed to create plant');
     }
+
+    const newPlant = await response.json();
+    console.log('New plant created:', newPlant);
+  
+  } catch (error) {
+    console.error('Error creating plant:', error.message);
   }
+}
+
+//   document.addEventListener("DOMContentLoaded", (event) => {
+//   const plantForm = document.getElementById('plantInput');
+
+//   plantForm.addEventListener('submit', async (event) => {
+//     event.preventDefault(); 
+
+//     const formData = new FormData(plantForm);
+//     const plantData = Object.fromEntries(formData.entries()); 
+
+//     await createPlant(plantData);
+//   });
+// });
+const plantForm = document.getElementById('search-form');
+console.log(plantForm);
+if(plantForm){
+console.log("Ready");
+
+plantForm.addEventListener('submit', async (event) => {
+  console.log("search");
+  event.preventDefault(); 
+
+  const formData = new FormData(plantForm);
+  const plantData = Object.fromEntries(formData.entries()); 
+
+  await createPlant(plantData);
+});
 };
-
-const delButtonHandler = async (event) => {
-  if (event.target.hasAttribute('data-id')) {
-    const id = event.target.getAttribute('data-id');
-
-    const response = await fetch(`/api/plant/${id}`, {
-      method: 'DELETE',
-    });
-
-    if (response.ok) {
-      document.location.replace('/profile');
-    } else {
-      alert('Failed to delete plant');
-    }
-  }
-};
-
-document
-  .querySelector('.new-plant-form')
-  .addEventListener('submit', newFormHandler);
-
-document
-  .querySelector('.plant-list')
-  .addEventListener('click', delButtonHandler);
