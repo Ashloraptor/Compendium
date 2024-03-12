@@ -1,97 +1,75 @@
-const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As'; // Replace with your actual API key
-let accessToken = null; // Access token will be obtained dynamically
+const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
-// Function to handle plant creation
-async function createPlant(plantData) {
-    try {
-        // Dynamically obtain access token if not already available
-        if (!accessToken) {
-            accessToken = await getAccessToken();
-        }
-        
-        const response = await fetch('http://localhost:3001/api/plants', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify(plantData)
-        });
+function searchPlant(event) {
+    event.preventDefault()
+    let plantName = document.getElementById('plantName').value
+    var myHeaders = new Headers();
+    myHeaders.append("Api-Key", apiKey);
+    myHeaders.append("Content-Type", "application/json");
 
-        if (!response.ok) {
-            throw new Error('Failed to create plant');
-        }
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
 
-        const result = await response.json();
-        console.log('Plant created successfully:', result);
-    } catch (error) {
-        console.error('Error creating plant:', error.message);
-    }
+    fetch(`https://plant.id/api/v3/kb/plants/name_search?q=${plantName}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    
 }
 
-// Function to dynamically obtain access token
-async function getAccessToken() {
-    try {
-        // Make request to obtain access token
-        const response = await fetch('https://example.com/oauth/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Api-Key': apiKey // Include API key if required by the authentication method
-            },
-            body: JSON.stringify({
-                grant_type: 'client_credentials',
-                client_id: 'your_client_id',
-                client_secret: 'your_client_secret'
-            })
-        });
+function renderPlantDetails(plantDetails) {
+    // Render plant details on the UI as needed
 
-        if (!response.ok) {
-            throw new Error('Failed to obtain access token');
-        }
-
-        const result = await response.json();
-        return result.access_token;
-    } catch (error) {
-        console.error('Error obtaining access token:', error.message);
-        return null;
-    }
+    // You can update the DOM elements with the retrieved plant information
+    document.getElementById('plantImage').src = plantDetails.image; // Update plant image
+    document.getElementById('plantName').textContent = plantDetails.name; // Update plant name
+    document.getElementById('plantDescription').textContent = plantDetails.description; // Update plant description
 }
 
-// Function to search for plants by coordinates
-async function searchPlantsByCoordinates(latitude, longitude) {
-    try {
-        if (!accessToken) {
-            accessToken = await getAccessToken();
-        }
-        
-        const response = await fetch(`https://plant.id/api/v3/kb/plants/nearby?lat=${latitude}&lon=${longitude}`, {
-            headers: {
-                'Api-Key': apiKey,
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
+// // Example usage: Search for a plant by name
+// const plantName = 'Rose'; // Replace with the actual plant name input by the user
+// searchPlant(plantName);
+const plantInput = document.getElementById('plantInput');
+plantInput.addEventListener('submit', searchPlant)
 
-        if (!response.ok) {
-            throw new Error('Failed to search for plants');
-        }
 
-        const result = await response.json();
-        console.log('Search result:', result);
-    } catch (error) {
-        console.error('Error searching for plants:', error.message);
-    }
-}
 
-// Event listener for form submission
-const plantInputForm = document.getElementById('plantInput');
-plantInputForm.addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const plantName = document.getElementById('plantName').value;
-    const latitude = parseFloat(document.getElementById('latitude').value);
-    const longitude = parseFloat(document.getElementById('longitude').value);
-    await createPlant({ name: plantName, latitude, longitude });
-});
 
-// Example usage: Search for plants near a specific location
-searchPlantsByCoordinates(40.7128, -74.0060); // Example coordinates for New York City
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// felt cute might delete soon
+// function displayPlantInfo(data) {
+
+//     if (data && data.results && data.results.length > 0) {
+//         const plant = data.results[0];
+//         const imageUrl = plant.image ? plant.image.url : ''; // Get plant image URL
+//         const plantDetails = {
+//             name: plant.common_names,
+//             description: plant.description,
+//             image: imageUrl
+//             // Add more plant details as needed
+//         };
+//         console.log('Plant details:', plantDetails);
+//         // Render the plant details on the UI
+//         renderPlantDetails(plantDetails);
+//     } else {
+//         console.log('No plant found with the specified name.');
+//     }
+// }
