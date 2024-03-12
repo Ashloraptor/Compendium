@@ -18,16 +18,14 @@
       </h1>
       <nav>
         <!-- Conditionally render login or logout links -->
-        
-        {{#if logged_in}}
-        <a href="/profile">Profile</a> 
-        <a href="/plants">Plants</a>
-        <button class="no-button" id="logout">Logout</button>
+        {{!-- {{#if logged_in}} --}}
+        <a href="/profile">profile</a> |
+        <button class="no-button" id="logout">logout</button>
         {{else}}
-        <a href="/login">Profile</a>
- 
+        <a href="/login">login</a>
+        {{!-- {{else}}
         {{/if}}
-      </nav>
+      </nav> --}}
     </header>
     <main class="container container-fluid mt-5">
       <!-- Render the sub layout -->
