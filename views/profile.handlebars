@@ -10,12 +10,12 @@
     <h3>Current plants:</h3>
 
     {{#each plants as |plant|}}
-    <div class="row mb-2">
-      <div class="col-md-8">
-        <h4><a href="/plant/{{plant.id}}">{{plant.name}}</a></h4>
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{plant.id}}">DELETE</button>
+    <div class="plantCard" style="width: 18rem;">
+      <img class="plant-image card-img-top" src="{{plant.image}}" alt="">
+      <div class="card-body">
+        <h5 class="plant-name">{{plant.name}}</h5>
+        <p class="plant-url card-text">URL: <a href="{{plant.url}}" target="_blank">{{plant.url}}</a></p>
+        <p class="plant-comment">Comment: {{plant.comment}}</p>
       </div>
     </div>
     {{/each}}
@@ -26,7 +26,4 @@
   </div>
   {{/if}}
 </div>
-
-
 <script src="./js/profile.js"></script>
-<script src="../public/css/profile.css"></script>
