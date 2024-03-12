@@ -26,6 +26,7 @@
     
 // };
 
+
 const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
 function searchPlant(event) {
