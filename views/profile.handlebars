@@ -13,9 +13,9 @@
     <div class="plantCard" style="width: 18rem;">
       <img class="plant-image card-img-top" src="{{plant.image}}" alt="">
       <div class="card-body">
-        <h5 class="plant-name">{{plantData.name}}</h5>
-        <p class="plant-description card-text">{{plantData.description}}</p>
-        <p class="plant-comment">Comment: {{plantData.comment}}</p>
+        <h5 class="plant-name">{{plant.name}}</h5>
+        <p class="plant-url card-text">URL: <a href="{{plant.url}}" target="_blank">{{plant.url}}</a></p>
+        <p class="plant-comment">Comment: {{plant.comment}}</p>
       </div>
     </div>
     {{/each}}
