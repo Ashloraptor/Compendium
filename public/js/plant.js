@@ -64,7 +64,7 @@ function getPlantDetails(access_token) {
         redirect: 'follow'
     };
 
-    fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
+    fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description.,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
         .then(response => response.json())
         .then(result => updatePlantDetails(result))
         .catch(error => console.log('error', error));
@@ -84,7 +84,7 @@ function updatePlantDetails(plantDetails) {
     }
 
     if (description) {
-        description.textContent = `${plantDetails.description.value}`;
+        description.textContent = plantDetails.description.value;
     }
 
     if (edibleParts) {
@@ -96,11 +96,11 @@ function updatePlantDetails(plantDetails) {
     }
 
     if (url) {
-        url.href = `${plantDetails.url}`;
+        url.href = plantDetails.url;
     }
 
     if (image) {
-        image.src = `${plantDetails.image.value}`;
+        image.src = plantDetails.image.value;
     }
 }
 
