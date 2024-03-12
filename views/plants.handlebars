@@ -1,30 +1,38 @@
+
 <form id="plantInput">
   <div class="mb-3">
     <label for="plantName" class="form-label">Plant Name</label>
-    <input type="text" class="form-control" id="plantName" >
+    <input type="text" class="form-control" id="plantName">
     <div id="emailHelp" class="form-text"></div>
   </div>
   
   <button type="submit" class="btn btn-primary">Submit</button>
 </form> 
 
-
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">An item</li>
-    <li class="list-group-item">A second item</li>
-    <li class="list-group-item">A third item</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
+<div class="plantCard" style="width: 18rem;">
+    <img id="image" src="{{image}}" class="card-img-top" alt="">
+    <div class="card-body">
+        <h5 id="plantName">{{name}}</h5>
+        <p class="card-text" id="description">{{description}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li id="edible_parts" class="list-group-item">Edible Parts: {{#each edible_parts}}{{this}}, {{/each}}</li>
+        <li id="watering" class="list-group-item">Watering: {{watering.min}} - {{watering.max}} inches</li>
+    </ul>
+    <div class="card-body">
+        <a href="{{url}}" id="url" class="card-link">More Information</a>
+        <button id="saveButton" class="btn btn-primary">Save to Profile</button> <!-- Added Save to Profile button -->
+        <form id="commentForm">
+            <div class="mb-3">
+                <label for="comment" class="form-label">Add Comment:</label>
+                <textarea class="form-control" id="comment" rows="3" required></textarea>
+            </div>
+            
+        </form> <!-- Added comment form -->
+    </div>
 </div>
 
-<script src="./js/profile.js"></script>
 <script src="./js/plant.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+

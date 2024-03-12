@@ -1,50 +1,48 @@
-async function createPlant(plantData) {
-    try {
-      const response = await fetch('/api/plants', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(plantData),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to create plant');
-      }
-  
-      const newPlant = await response.json();
-      console.log('New plant created:', newPlant);
-    
-    } catch (error) {
-      console.error('Error creating plant:', error.message);
-    }
+
+let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
+
+function renderUserProfile() {
+  const plantListContainer = document.querySelector('.plant-list');
+  if (!plantListContainer) {
+    console.error('Plant list container not found.');
+    return;
   }
-  
-//   document.addEventListener("DOMContentLoaded", (event) => {
-//   const plantForm = document.getElementById('plantInput');
-  
-//   plantForm.addEventListener('submit', async (event) => {
-//     event.preventDefault(); 
-  
-//     const formData = new FormData(plantForm);
-//     const plantData = Object.fromEntries(formData.entries()); 
-  
-//     await createPlant(plantData);
-//   });
-// });
-  const plantForm = document.getElementById('plantInput');
-  // const plantForm = document.getElementById('search-form');
-  console.log(plantForm);
-  if(plantForm){
-console.log("Ready");
-  
-  plantForm.addEventListener('submit', async (event) => {
-    console.log("search");
-    event.preventDefault(); 
-  
-    const formData = new FormData(plantForm);
-    const plantData = Object.fromEntries(formData.entries()); 
-  
-    await createPlant(plantData);
+
+  plantListContainer.innerHTML = '';
+  if (userProfile.plants.length === 0) {
+    plantListContainer.innerHTML = '<p>No saved plants.</p>';
+    return;
+  }
+
+  userProfile.plants.forEach(plantData => {
+    const plantItem = document.createElement('div');
+    plantItem.classList.add('row', 'mb-2');
+    plantItem.innerHTML = `
+      <div class="col-md-8">
+        <h4><a href="/plant/${plantData.plant.entity_id}">${plantData.plant.name}</a></h4>
+        <p>${plantData.comment}</p>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-sm btn-danger delete-btn" data-id="${plantData.plant.entity_id}">DELETE</button>
+      </div>
+    `;
+    plantListContainer.appendChild(plantItem);
   });
-};
+
+  const deleteButtons = document.querySelectorAll('.delete-btn');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const plantId = button.getAttribute('data-id');
+      deletePlant(plantId);
+    });
+  });
+}
+
+// Function to delete a plant from the user's profile
+function deletePlant(plantId) {
+  userProfile.plants = userProfile.plants.filter(plantData => plantData.plant.entity_id !== plantId);
+  localStorage.setItem('userProfile', JSON.stringify(userProfile));
+  renderUserProfile();
+}
+
+renderUserProfile();

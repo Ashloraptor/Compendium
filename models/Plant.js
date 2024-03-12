@@ -21,7 +21,7 @@ Plant.init(
         //   },
         plant_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         // date_found: {
         //     type: DataTypes.DATE,
