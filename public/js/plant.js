@@ -20,7 +20,7 @@ function searchPlant(event) {
     .then(result => {
     
         
-        updatePlantDetails(result); //Update the plant details
+        updatePlantDetails(); //Update the plant details
     })
     .catch(error => console.log('error', error));
     
@@ -29,7 +29,7 @@ const plantInput = document.getElementById('plantInput');
 plantInput.addEventListener('submit', searchPlant)
 
 
-function getPlantDetails(plantDetails) {
+function getPlantDetails() {
     
     var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -41,13 +41,14 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`https://plant.id/api/v3/kb/plants/ADQuTDRVfU1caQRidkdcbFlsZVVBdV1lBDVnUGJRaFk-?details=${plantName},${url},${description},taxonomy,rank,gbif_id,inaturalist_id,${image},synonyms,${edible_parts},${watering},propagation_methods&lang=en`, requestOptions)
+fetch(`https://plant.id/api/v3/kb/plants/:access_token?details=${plantName},${url},${description},taxonomy,rank,gbif_id,inaturalist_id,${image},synonyms,${edible_parts},${watering},propagation_methods&lang=en`, requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
 };
 
 function updatePlantDetails(plantDetails) {
+    getPlantDetails()
    
     const plantName = document.getElementById("plantName");
     const description = document.getElementById("description");
