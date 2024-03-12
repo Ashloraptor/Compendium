@@ -3,8 +3,8 @@
 // const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
 // function searchPlant(event) {
-//     event.preventDefault()
-//     let plantName = document.getElementById('plantName').value
+//     event.preventDefault();
+//     let plantName = document.getElementById('plantName').value;
 //     var myHeaders = new Headers();
 //     myHeaders.append("Api-Key", apiKey);
 //     myHeaders.append("Content-Type", "application/json");
@@ -16,15 +16,67 @@
 //     };
 
 //     fetch(`https://plant.id/api/v3/kb/plants/name_search?q=${plantName}`, requestOptions)
-//     .then(response => response.json()) 
-//     .then(result => {
-    
-        
-//         updatePlantDetails(); //Update the plant details
-//     })
-//     .catch(error => console.log('error', error));
-    
-// };
+//         .then(response => response.json())
+//         .then(result => {
+//             const access_token = result.entities[0].access_token; // Extract access token from response
+//             getPlantDetails(access_token); // Call getPlantDetails with the access token
+//         })
+//         .catch(error => console.log('error', error));
+// }
+
+// const plantInput = document.getElementById('plantInput');
+// plantInput.addEventListener('submit', searchPlant);
+
+// function getPlantDetails(access_token) {
+//     var myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "application/json");
+//     myHeaders.append("Api-Key", apiKey);
+
+//     var requestOptions = {
+//         method: 'GET',
+//         headers: myHeaders,
+//         redirect: 'follow'
+//     };
+
+//     fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description.,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
+//         .then(response => response.json())
+//         .then(result => updatePlantDetails(result))
+//         .catch(error => console.log('error', error));
+// }
+
+// function updatePlantDetails(plantDetails) {
+//     console.log(plantDetails);
+//     const plantName = document.getElementById("plantName");
+//     const description = document.getElementById("description");
+//     const edibleParts = document.getElementById("edible_parts");
+//     const watering = document.getElementById("watering");
+//     const url = document.getElementById("url");
+//     const image = document.getElementById("image");
+
+//     if (plantName) {
+//         plantName.textContent = plantDetails.name;
+//     }
+
+//     if (description) {
+//         description.textContent = plantDetails.description.value;
+//     }
+
+//     if (edibleParts) {
+//         edibleParts.textContent = `Edible Parts: ${plantDetails.edible_parts.join(", ")}`;
+//     }
+
+//     if (watering) {
+//         watering.textContent = `Watering: ${plantDetails.watering.min} - ${plantDetails.watering.max} inches`;
+//     }
+
+//     if (url) {
+//         url.href = plantDetails.url;
+//     }
+
+//     if (image) {
+//         image.src = plantDetails.image.value;
+//     }
+// }
 
 const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
@@ -44,16 +96,13 @@ function searchPlant(event) {
     fetch(`https://plant.id/api/v3/kb/plants/name_search?q=${plantName}`, requestOptions)
         .then(response => response.json())
         .then(result => {
-            const access_token = result.entities[0].access_token; // Extract access token from response
-            getPlantDetails(access_token); // Call getPlantDetails with the access token
+            const access_token = result.entities[0].access_token;
+            getPlantDetailsAndUpdate(access_token);
         })
         .catch(error => console.log('error', error));
 }
 
-const plantInput = document.getElementById('plantInput');
-plantInput.addEventListener('submit', searchPlant);
-
-function getPlantDetails(access_token) {
+function getPlantDetailsAndUpdate(access_token) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Api-Key", apiKey);
@@ -64,93 +113,63 @@ function getPlantDetails(access_token) {
         redirect: 'follow'
     };
 
-    fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description.,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
+    fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
         .then(response => response.json())
         .then(result => updatePlantDetails(result))
         .catch(error => console.log('error', error));
 }
 
 function updatePlantDetails(plantDetails) {
-    console.log(plantDetails);
-    const plantName = document.getElementById("plantName");
-    const description = document.getElementById("description");
-    const edibleParts = document.getElementById("edible_parts");
-    const watering = document.getElementById("watering");
-    const url = document.getElementById("url");
-    const image = document.getElementById("image");
+    const plantNameElement = document.getElementById("plantName");
+    const descriptionElement = document.getElementById("description");
+    const ediblePartsElement = document.getElementById("edible_parts");
+    const wateringElement = document.getElementById("watering");
+    const urlElement = document.getElementById("url");
+    const imageElement = document.getElementById("image");
 
-    if (plantName) {
-        plantName.textContent = plantDetails.name;
+    if (plantNameElement) {
+        plantNameElement.textContent = plantDetails.name;
     }
 
-    if (description) {
-        description.textContent = plantDetails.description.value;
+    if (descriptionElement) {
+        descriptionElement.textContent = plantDetails.description.value;
     }
 
-    if (edibleParts) {
-        edibleParts.textContent = `Edible Parts: ${plantDetails.edible_parts.join(", ")}`;
+    if (ediblePartsElement && plantDetails.edible_parts) {
+        ediblePartsElement.textContent = `Edible Parts: ${plantDetails.edible_parts.join(", ")}`;
     }
 
-    if (watering) {
-        watering.textContent = `Watering: ${plantDetails.watering.min} - ${plantDetails.watering.max} inches`;
+    if (wateringElement) {
+        wateringElement.textContent = `Watering: ${plantDetails.watering.min} - ${plantDetails.watering.max} inches`;
     }
 
-    if (url) {
-        url.href = plantDetails.url;
+    if (urlElement) {
+        urlElement.href = plantDetails.url;
     }
 
-    if (image) {
-        image.src = plantDetails.image.value;
+    if (imageElement) {
+        imageElement.src = plantDetails.image.value;
     }
+
+    // Add event listener to save button
+    const saveButton = document.getElementById("saveButton");
+    saveButton.addEventListener('click', () => {
+        const comment = document.getElementById("comment").value;
+        savePlantToProfile(plantDetails, comment);
+    });
 }
 
-//     const plantDetailsContainer = document.getElementById("plant-details");
-//     plantDetailsContainer.innerHTML = ''; 
-//     // Construct HTML for the card
-//     const html = `
-//         <div class="card" style="width: 18rem;">
-//             <img src="${plantDetails.image}" class="card-img-top" alt="${plantDetails.common_names}">
-//             <div class="card-body">
-//                 <h5 class="card-title">${plantDetails.common_names}</h5>
-//                 <p class="card-text">${plantDetails.description}</p>
-//             </div>
-//             <ul class="list-group list-group-flush">
-//                 <li class="list-group-item">Rank: ${plantDetails.rank}</li>
-//                 <li class="list-group-item">Edible Parts: ${plantDetails.edible_parts}</li>
-//                 <!-- Add more details as needed -->
-//             </ul>
-//             <div class="card-body">
-//                 <a href="${plantDetails.url}" class="card-link" target="_blank">More Info</a>
-//             </div>
-//         </div>
-//     `;
+function savePlantToProfile(plantDetails, comment) {
+    let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
 
-//     plantDetailsContainer.innerHTML = html; // Append HTML to container
-// }
+    userProfile.plants.push({ plant: plantDetails, comment: comment });
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
+    console.log("Plant saved to profile with comment:", plantDetails, comment);
+}
 
-
-// async function fetchDataForMultiplePlantsFromAPI(plantIds) {
-//     try {
-//         const promises = plantIds.map(async (plantId) => {
-//             const response = await fetch(`https://plant.id/api/v3/kb/plants/${plantId}?details=common_names,url,description,rank,edible_parts&lang=en`);
-//             if (!response.ok) {
-//                 throw new Error('Failed to fetch plant data');
-//             }
-//             const data = await response.json();
-//             return data; // Assuming the API response contains additional plant data
-//         });
-//         return await Promise.all(promises);
-//     } catch (error) {
-//         console.error('Error fetching plant data:', error);
-//         return []; // Return an empty array if there's an error
-//     }
-// }
-
-
-
-
-
+const plantInputForm = document.getElementById('plantInput');
+plantInputForm.addEventListener('submit', searchPlant);
 
 
 
