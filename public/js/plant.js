@@ -1,10 +1,36 @@
 
 
+// const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
+
+// function searchPlant(event) {
+//     event.preventDefault()
+//     let plantName = document.getElementById('plantName').value
+//     var myHeaders = new Headers();
+//     myHeaders.append("Api-Key", apiKey);
+//     myHeaders.append("Content-Type", "application/json");
+
+//     var requestOptions = {
+//         method: 'GET',
+//         headers: myHeaders,
+//         redirect: 'follow'
+//     };
+
+//     fetch(`https://plant.id/api/v3/kb/plants/name_search?q=${plantName}`, requestOptions)
+//     .then(response => response.json()) 
+//     .then(result => {
+    
+        
+//         updatePlantDetails(); //Update the plant details
+//     })
+//     .catch(error => console.log('error', error));
+    
+// };
+
 const apiKey = 'bdKVmf7eGU9F7pThLHlHOPG5axdB1pdPscutn0vB5EMdg6Y4As';
 
 function searchPlant(event) {
-    event.preventDefault()
-    let plantName = document.getElementById('plantName').value
+    event.preventDefault();
+    let plantName = document.getElementById('plantName').value;
     var myHeaders = new Headers();
     myHeaders.append("Api-Key", apiKey);
     myHeaders.append("Content-Type", "application/json");
@@ -16,40 +42,36 @@ function searchPlant(event) {
     };
 
     fetch(`https://plant.id/api/v3/kb/plants/name_search?q=${plantName}`, requestOptions)
-    .then(response => response.json()) 
-    .then(result => {
-    
-        
-        updatePlantDetails(); //Update the plant details
-    })
-    .catch(error => console.log('error', error));
-    
-};
+        .then(response => response.json())
+        .then(result => {
+            const access_token = result.entities[0].access_token; // Extract access token from response
+            getPlantDetails(access_token); // Call getPlantDetails with the access token
+        })
+        .catch(error => console.log('error', error));
+}
+
 const plantInput = document.getElementById('plantInput');
-plantInput.addEventListener('submit', searchPlant)
+plantInput.addEventListener('submit', searchPlant);
 
-
-function getPlantDetails() {
-    
+function getPlantDetails(access_token) {
     var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Api-Key", apiKey );
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Api-Key", apiKey);
 
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
-};
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
 
-fetch(`https://plant.id/api/v3/kb/plants/:access_token?details=${plantName},${url},${description},taxonomy,rank,gbif_id,inaturalist_id,${image},synonyms,${edible_parts},${watering},propagation_methods&lang=en`, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-};
+    fetch(`https://plant.id/api/v3/kb/plants/${access_token}?details=name,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering,propagation_methods&lang=en`, requestOptions)
+        .then(response => response.json())
+        .then(result => updatePlantDetails(result))
+        .catch(error => console.log('error', error));
+}
 
 function updatePlantDetails(plantDetails) {
-    getPlantDetails()
-   
+    console.log(plantDetails);
     const plantName = document.getElementById("plantName");
     const description = document.getElementById("description");
     const edibleParts = document.getElementById("edible_parts");
@@ -62,7 +84,7 @@ function updatePlantDetails(plantDetails) {
     }
 
     if (description) {
-        description.textContent =`${plantDetails.description.value}`;
+        description.textContent = `${plantDetails.description.value}`;
     }
 
     if (edibleParts) {
@@ -81,8 +103,6 @@ function updatePlantDetails(plantDetails) {
         image.src = `${plantDetails.image.value}`;
     }
 }
-
-
 
 //     const plantDetailsContainer = document.getElementById("plant-details");
 //     plantDetailsContainer.innerHTML = ''; 
