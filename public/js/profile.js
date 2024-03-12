@@ -20,15 +20,17 @@ function renderUserProfile() {
   userProfile.plants.forEach((plantData, index) => {
      
       const plantItem = document.createElement('div');
-      plantItem.classList.add('plantCard', 'mb-2');
-      plantItem.style.width = '18rem';
+      plantItem.classList.add('plantCard', 'mb-4');
+      plantItem.style.width = '36rem';
+      plantItem.style.margin = 'auto';
+      
 
       
       plantItem.innerHTML = `
           <img class="plant-image card-img-top" src="${plantData.image}" alt="">
           <div class="card-body">
               <h5 class="plant-name">${plantData.name}</h5>
-              <p class="plant-url card-text">URL: <a href="${plantData.url}" target="_blank">${plantData.url}</a></p>
+              <p class="plant-url card-text">URL: <a href="${plantData.url}" target="_blank" style="font-size:2rem;">More Info</a></p>
               <p class="plant-comment">Comment: ${plantData.comment}</p>
           </div>
       `;

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-auto">
-    <h2>Welcome {{name}}</h2>
+    <h2>Welcome, {{username}}</h2>
   </div>
 </div>
 
@@ -10,11 +10,11 @@
     <h3>Current plants:</h3>
 
     {{#each plants as |plant|}}
-    <div class="plantCard" style="width: 18rem;">
+    <div class="plantCard" style="width: 18rem; margin:auto;">
       <img class="plant-image card-img-top" src="{{plant.image}}" alt="">
       <div class="card-body">
         <h5 class="plant-name">{{plant.name}}</h5>
-        <p class="plant-url card-text">URL: <a href="{{plant.url}}" target="_blank">{{plant.url}}</a></p>
+        <p class="plant-url card-text">URL: <a href="{{plant.url}}" target="_blank">More Info</a></p>
         <p class="plant-comment">Comment: {{plant.comment}}</p>
       </div>
     </div>
@@ -23,6 +23,7 @@
   {{else}}
   <div class="col-md-6 plant-list">
     <p>No saved plants.</p>
+ 
   </div>
   {{/if}}
 </div>
