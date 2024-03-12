@@ -162,10 +162,16 @@ function updatePlantDetails(plantDetails) {
 function savePlantToProfile(plantDetails, comment) {
     let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
 
-    userProfile.plants.push({ plant: plantDetails, comment: comment });
+    // Extract relevant plant details
+    const name = plantDetails.name || "Unknown";
+    const description = plantDetails.description && plantDetails.description.value ? plantDetails.description.value : "Unknown";
+    const image = plantDetails.image && plantDetails.image.value ? plantDetails.image.value : "Unknown";
+
+    // Push the plant details along with the comment to the user's profile
+    userProfile.plants.push({ name, description, image, comment });
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-    console.log("Plant saved to profile with comment:", plantDetails, comment);
+    console.log("Plant saved to profile with comment:", name, description, image, comment);
 }
 
 const plantInputForm = document.getElementById('plantInput');
