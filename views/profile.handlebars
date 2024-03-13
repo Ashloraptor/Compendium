@@ -1,29 +1,13 @@
 <div class="row">
   <div class="col-auto">
-<<<<<<< HEAD
-    <h2>Welcome <span id="userName"></span></h2>
-=======
     <h2>Welcome, {{username}}</h2>
->>>>>>> 62a00d6a5162e268be653d99164648eebd85d4cf
   </div>
 </div>
 
 <div class="row mt-4">
-  {{#if userProfile.plants.length}}
+  {{#if plants.length}}
   <div class="col-md-6 plant-list">
     <h3>Current plants:</h3>
-<<<<<<< HEAD
-    <div id="plantsContainer">
-      <!-- Plant items will be dynamically added here -->
-      {{#each userProfile.plants as |plant|}}
-      <div class="row mb-2">
-        <div class="col-md-8">
-          <h4><a href="/plant/{{plant.id}}">{{plant.name}}</a></h4>
-        </div>
-        <div class="col-md-4">
-          <button class="btn btn-sm btn-danger delete-btn" data-id="{{plant.id}}">DELETE</button>
-        </div>
-=======
 
     {{#each plants as |plant|}}
     <div class="plantCard" style="width: 18rem; margin:auto;">
@@ -32,10 +16,9 @@
         <h5 class="plant-name">{{plant.name}}</h5>
         <p class="plant-url card-text">URL: <a href="{{plant.url}}" target="_blank">More Info</a></p>
         <p class="plant-comment">Comment: {{plant.comment}}</p>
->>>>>>> 62a00d6a5162e268be653d99164648eebd85d4cf
       </div>
-      {{/each}}
     </div>
+    {{/each}}
   </div>
   {{else}}
   <div class="col-md-6 plant-list">
@@ -44,7 +27,4 @@
   </div>
   {{/if}}
 </div>
-<<<<<<< HEAD
-=======
 <script src="./js/profile.js"></script>
->>>>>>> 62a00d6a5162e268be653d99164648eebd85d4cf
