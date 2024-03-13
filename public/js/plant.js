@@ -151,7 +151,6 @@ function updatePlantDetails(plantDetails) {
         imageElement.src = plantDetails.image.value;
     }
 
-    // Add event listener to save button
     const saveButton = document.getElementById("saveButton");
     saveButton.addEventListener('click', () => {
         const comment = document.getElementById("comment").value;
@@ -162,10 +161,15 @@ function updatePlantDetails(plantDetails) {
 function savePlantToProfile(plantDetails, comment) {
     let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
 
-    userProfile.plants.push({ plant: plantDetails, comment: comment });
+ 
+    const name = plantDetails.name || "Unknown";
+    const url = plantDetails.url || "Unknown";
+    const image = plantDetails.image && plantDetails.image.value ? plantDetails.image.value : "Unknown";
+
+    userProfile.plants.push({ name, url, image, comment });
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-    console.log("Plant saved to profile with comment:", plantDetails, comment);
+    console.log("Plant saved to profile with comment:", name, url, image, comment);
 }
 
 const plantInputForm = document.getElementById('plantInput');

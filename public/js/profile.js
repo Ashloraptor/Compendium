@@ -1,47 +1,71 @@
-let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
 
 function renderUserProfile() {
+  
   const plantListContainer = document.querySelector('.plant-list');
   if (!plantListContainer) {
-    console.error('Plant list container not found.');
-    return;
+      console.error('Plant list container not found.');
+      return;
   }
+
+  
+  let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
 
   plantListContainer.innerHTML = '';
   if (userProfile.plants.length === 0) {
-    plantListContainer.innerHTML = '<p>No saved plants.</p>';
-    return;
+      plantListContainer.innerHTML = '<p>No saved plants.</p>';
+      return;
   }
 
-  userProfile.plants.forEach(plantData => {
-    const plantItem = document.createElement('div');
-    plantItem.classList.add('row', 'mb-2');
-    plantItem.innerHTML = `
-      <div class="col-md-8">
-        <h4><a href="/plant/${plantData.plant.entity_id}">${plantData.plant.name}</a></h4>
-        <p>${plantData.comment}</p>
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-sm btn-danger delete-btn" data-id="${plantData.plant.entity_id}">DELETE</button>
-      </div>
-    `;
-    plantListContainer.appendChild(plantItem);
-  });
+ 
+  userProfile.plants.forEach((plantData, index) => {
+     
+      const plantItem = document.createElement('div');
+      plantItem.classList.add('plantCard', 'mb-4');
+      plantItem.style.width = '36rem';
+      plantItem.style.margin = 'auto';
+      
 
-  const deleteButtons = document.querySelectorAll('.delete-btn');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const plantId = button.getAttribute('data-id');
-      deletePlant(plantId);
-    });
+      
+      plantItem.innerHTML = `
+          <img class="plant-image card-img-top" src="${plantData.image}" alt="">
+          <div class="card-body">
+              <h5 class="plant-name">${plantData.name}</h5>
+              <p class="plant-url card-text">URL: <a href="${plantData.url}" target="_blank" style="font-size:2rem;">More Info</a></p>
+              <p class="plant-comment">Comment: ${plantData.comment}</p>
+          </div>
+      `;
+
+    
+      const deleteButton = document.createElement('button');
+      deleteButton.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-btn');
+      deleteButton.setAttribute('data-id', index); 
+      deleteButton.textContent = 'DELETE';
+
+      
+      deleteButton.addEventListener('click', () => {
+          deletePlant(index);
+      });
+
+      
+      plantItem.querySelector('.card-body').appendChild(deleteButton);
+
+      
+      plantListContainer.appendChild(plantItem);
   });
 }
 
-// Function to delete a plant from the user's profile
-function deletePlant(plantId) {
-  userProfile.plants = userProfile.plants.filter(plantData => plantData.plant.entity_id !== plantId);
+
+function deletePlant(index) {
+  let userProfile = JSON.parse(localStorage.getItem('userProfile')) || { plants: [] };
+
+  userProfile.plants.splice(index, 1);
+
+
   localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+
   renderUserProfile();
 }
+
 
 renderUserProfile();
