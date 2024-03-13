@@ -192,8 +192,11 @@ nav {
     top: 0;
     opacity: 0;
 } */
-input[type="plant"]{
+input[type="text"]{
     display: inline-block;
+    text-align: left;
+    width: 100%;
+    padding: 14px;
 }
 label{
     display: inline-block;
