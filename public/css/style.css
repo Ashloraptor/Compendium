@@ -1,4 +1,241 @@
-/*Colors sourced from https://www.khroma.co/train */
+/*Colors sourced from https://www.khroma.co/train *//*Colors sourced from https://www.khroma.co/train */
+:root {
+    --bright-cyan: #39ECC8;
+    --cyan: #3bc7b2;
+    --muted-cyan: #22B0B0;
+    --blue: #0D73D3;
+    --muted-blue: #447AB8;
+    /*--muted-navy: #0E517B;*/
+    --muted-navy: #283C77;
+}
+
+/* set content highlight color and background */
+::selection {
+    background-color: var(--bright-cyan);
+    color: var(--muted-navy);
+}
+
+html {
+    /* set 1rem to 10px instead of native 16px to make it easier to calculate font-size values for the rest of the page (e.g. 1.6rem is 16px, 2.0rem is 20px, etc.) */
+    font-size: 62.5%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    /* Sans Serif font stack is implemented to help select the best font for each type of computer operating system */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+        Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    color: var(--muted-cyan);
+    background-image: url(https://th.bing.com/th/id/OIP.1fnWgDkvdRxl7AQ0HXjfDQHaE7?rs=1&pid=ImgDetMain);
+    background-repeat:calc()
+}
+
+
+.compendium-header {
+    font-size: xx-large;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0.625rem;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+    font-weight: 100;
+    line-height: 1.1;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    /* Center it here somehow*/
+    float: left;
+}
+
+a {
+    /* 4rem = 40px (4 * 10px) */
+    display: block;
+    padding: 8px;
+    font-size: 4rem;
+    color: var(--cyan);
+    font-weight: 100;
+    line-height: 1.1;
+}
+
+li a:hover {
+    
+    outline-color: var(--bright-cyan);
+    /*outline-width: 2px;*/
+}
+
+h1 {
+    /* 4rem = 40px (4 * 10px) */
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 3.5rem;
+}
+
+h3 {
+    font-size: 3rem;
+}
+
+h4 {
+    font-size: 2.5rem;
+}
+
+h5 {
+    font-size: 2rem;
+}
+
+h6 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+header {
+    width: 96%;
+    margin: 0 auto;
+    padding: 2.5rem;
+    text-align: center;
+}
+.text {
+    font-size: 20px;
+
+    margin-bottom: 30px;
+}
+
+
+nav {
+    align-items: center;
+}
+
+/* create our main grid with flexbox, use negative margins to offset the padding on the .card-column class */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+/* make each code card a flexbox column to align and justify content within it */
+.code-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100%;
+    padding: 2rem;
+    color: var(--muted-cyan);
+
+    /* outline is like border, but on the outside of the box instead of inside */
+    outline: 2px dashed var(--muted-blue);
+    outline-offset: -2px;
+    transition: all 0.5s ease-in-out;
+}
+.imgbox {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    /* Aspect ratio 1:1 */
+    overflow: hidden;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-cropped {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250%;
+    height: 250%;
+    object-fit: cover;
+    object-position: center center;    
+}
+
+.middle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+/* .middle input[type="file"] {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+} */
+input[type="text"]{
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    padding: 14px;
+}
+label{
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff;
+    background: #013220;
+    text-align: center;
+    padding: 15px 40px;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    user-select: none;
+    cursor: pointer;
+    border: 1px dashed #484646;
+    z-index: 5;
+}
+#result {
+    position: relative;;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .inner {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .heading {
+        font-size: 32px;
+    }
+    #result {
+        font-size: 8px;
+    }
+}
+
+
 :root {
     --bright-cyan: #39ECC8;
     --cyan: #3bc7b2;

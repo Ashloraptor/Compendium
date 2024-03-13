@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS compendium_db;
-
-
-CREATE DATABASE compendium_db;
 const Sequelize = require('sequelize');
 const config = require('./config');
 
