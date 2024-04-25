@@ -3,4 +3,6 @@ An Educational Tool For Exploring Plants. This application takes input from the 
 
 Learn the value of discovering plants on hikes, foraging opportunities, and enhancing gardening knowledge.
 
+[Compendium](https://compendium-256a42904ce0.herokuapp.com/)
+
 ![image](https://github.com/Ashloraptor/Compendium/assets/148083732/7706c685-94b1-4a44-b985-fe68cc91024f)
