@@ -5,4 +5,5 @@ Learn the value of discovering plants on hikes, foraging opportunities, and enha
 
 [Compendium](https://compendium-256a42904ce0.herokuapp.com/)
 
-![image](https://github.com/Ashloraptor/Compendium/assets/148083732/7706c685-94b1-4a44-b985-fe68cc91024f)
+![image](https://github.com/Ashloraptor/Compendium/assets/148083732/e106d54b-a94b-4779-af16-be4bbf9f4247)
+
